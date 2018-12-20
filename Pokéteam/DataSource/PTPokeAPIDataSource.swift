@@ -90,13 +90,30 @@ class PTPokeAPIDataSource : NSObject
         if let loadedTrainers = try? self.getAllTrainers()
         {
             allTrainers = loadedTrainers
+            
+            var index : Int?
+            
+            for loopTrainer in allTrainers
+            {
+                if trainer.name.lowercased() == loopTrainer.name.lowercased()
+                {
+                    index = allTrainers.index(of: loopTrainer)
+                    break
+                }
+            }
+            
+            if let index = index
+            {
+                //Remove old
+                allTrainers.remove(at: index)
+                //Insert new at old spot
+                allTrainers.insert(trainer, at: index)
+            }
         }
         else
         {
-            allTrainers = []
+            allTrainers = [trainer]
         }
-        
-        allTrainers.append(trainer)
         
         try Disk.save(allTrainers,
                       to: .documents,

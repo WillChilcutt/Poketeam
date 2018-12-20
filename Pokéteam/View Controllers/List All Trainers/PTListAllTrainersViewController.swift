@@ -20,11 +20,23 @@ class PTListAllTrainersViewController: UIViewController
     //MARK: - IBOutlet
     @IBOutlet weak var tableView: UITableView!
     
+    init()
+    {
+        super.init(nibName: nil , bundle: nil)
+        self.title = "Trainers"
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         self.title = "Trainers"
+                
+        self.tableView.tableFooterView = UIView()
         
         self.setUpNavigationBarItem()
         
@@ -96,46 +108,8 @@ class PTListAllTrainersViewController: UIViewController
     }
 }
 
-//MARK: - UITableViewDataSource
 
-extension PTListAllTrainersViewController : UITableViewDataSource
-{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return self.trainersArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-        var cell  = tableView.dequeueReusableCell(withIdentifier: kPTListAllTrainersViewControllerTrainerCellIdentifier)
-        
-        if cell == nil
-        {
-            cell = UITableViewCell(style: .default, reuseIdentifier: kPTListAllTrainersViewControllerTrainerCellIdentifier)
-        }
-        
-        let trainer = self.trainersArray[indexPath.row]
-        
-        cell?.textLabel?.text = trainer.name
-        
-        return cell!
-    }
-}
-
-//MARK: - UITableViewDelegate
-
-extension PTListAllTrainersViewController : UITableViewDelegate
-{
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    {
-        tableView.deselectRow(at: indexPath,
-                              animated: true)
-        
-        let trainer = self.trainersArray[indexPath.row]
-
-        print("Selected \(trainer.name)")
-    }
-}
+//MARK: - UITextFieldDelegate
 
 extension PTListAllTrainersViewController : UITextFieldDelegate
 {
@@ -161,5 +135,52 @@ extension PTListAllTrainersViewController : UITextFieldDelegate
         }
         
         return true
+    }
+}
+
+//MARK: - UITableViewDataSource
+
+extension PTListAllTrainersViewController : UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return self.trainersArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        var cell  = tableView.dequeueReusableCell(withIdentifier: kPTListAllTrainersViewControllerTrainerCellIdentifier)
+        
+        if cell == nil
+        {
+            cell = UITableViewCell(style: .subtitle,
+                                   reuseIdentifier: kPTListAllTrainersViewControllerTrainerCellIdentifier)
+            cell?.accessoryType = .disclosureIndicator
+        }
+        
+        let trainer = self.trainersArray[indexPath.row]
+        
+        cell?.textLabel?.text = trainer.name
+        cell?.detailTextLabel?.text = "Owns \(trainer.pokemon.count) \(kPokemon)"
+        
+        return cell!
+    }
+}
+
+//MARK: - UITableViewDelegate
+
+extension PTListAllTrainersViewController : UITableViewDelegate
+{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        tableView.deselectRow(at: indexPath,
+                              animated: true)
+        
+        let trainer = self.trainersArray[indexPath.row]
+
+        let detailsVC = PTTrainerDetailsViewController(withTrainer: trainer)
+        
+        self.navigationController?.pushViewController(detailsVC,
+                                                      animated: true)
     }
 }

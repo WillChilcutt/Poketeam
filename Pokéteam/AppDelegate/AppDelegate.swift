@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             let navController = UINavigationController(rootViewController: viewController)
             navController.navigationBar.isTranslucent = false
             
+            viewController.tabBarItem = UITabBarItem(title: viewController.title, image: nil, selectedImage: nil)
             tabBarController.addChildViewController(navController)
         }
         

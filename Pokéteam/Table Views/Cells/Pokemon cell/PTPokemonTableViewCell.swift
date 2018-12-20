@@ -29,7 +29,7 @@ class PTPokemonTableViewCell: UITableViewCell
         
         guard var pokemon = self.pokemon else { return }
         
-        self.nameLabel.text = pokemon.name
+        self.nameLabel.text = pokemon.name.capitalized
         
         if let url = URL(string: pokemon.spite)
         {

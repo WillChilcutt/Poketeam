@@ -8,19 +8,36 @@
 
 import UIKit
 
+protocol PTListAllPokemonViewControllerDelegate
+{
+    func handleUserSelected(pokemon : PTPokemon)
+}
+
 class PTListAllPokemonViewController: UIViewController
 {
     private var dataSource      : PTPokeAPIDataSource =  PTPokeAPIDataSource()
     private var pokemonArray    : [PTPokemon] = []
+    
+    var delegate : PTListAllPokemonViewControllerDelegate?
         
     //MARK: - IBOutlet
     @IBOutlet weak var tableView: UITableView!
     
+    init()
+    {
+        super.init(nibName: nil , bundle: nil)
+        self.title = "All \(kPokemon)"
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        self.title = "All Pokémon"
+                
+        self.tableView.tableFooterView = UIView()
         
         self.tableView.register(UINib(nibName: kPTPokemonTableViewCellClassName, bundle: nil),
                                 forCellReuseIdentifier: kPTPokemonTableViewCellClassName)
@@ -95,7 +112,6 @@ extension PTListAllPokemonViewController : UITableViewDelegate
                               animated: true)
         let pokemon = self.pokemonArray[indexPath.row]
 
-        
-        print("Selected \(pokemon.name)")
+        self.delegate?.handleUserSelected(pokemon: pokemon)
     }
 }
