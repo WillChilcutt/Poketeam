@@ -38,7 +38,12 @@ class PTListAllTrainersViewController: UIViewController
                 
         self.tableView.tableFooterView = UIView()
         
-        self.setUpNavigationBarItem()
+        self.setUpNavigationBarItem()        
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
         
         self.loadAllTrainers()
     }
