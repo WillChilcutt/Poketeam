@@ -8,13 +8,11 @@
 
 import UIKit
 
-private let kPTListAllPokemonViewControllerCellIdentifier = "kPTListAllPokemonViewControllerCellIdentifier"
-
 class PTListAllPokemonViewController: UIViewController
 {
     private var dataSource      : PTPokeAPIDataSource =  PTPokeAPIDataSource()
     private var pokemonArray    : [PTPokemon] = []
-    
+        
     //MARK: - IBOutlet
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,6 +21,9 @@ class PTListAllPokemonViewController: UIViewController
         super.viewDidLoad()
         
         self.title = "All Pokémon"
+        
+        self.tableView.register(UINib(nibName: kPTPokemonTableViewCellClassName, bundle: nil),
+                                forCellReuseIdentifier: kPTPokemonTableViewCellClassName)
         
         self.getAllPokemon()
     }
@@ -61,18 +62,26 @@ extension PTListAllPokemonViewController : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        var cell = tableView.dequeueReusableCell(withIdentifier: kPTListAllPokemonViewControllerCellIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: kPTPokemonTableViewCellClassName)
         
         if cell == nil
         {
-            cell = UITableViewCell(style: .default, reuseIdentifier: kPTListAllPokemonViewControllerCellIdentifier)
+            cell = PTPokemonTableViewCell(style: .default, reuseIdentifier: kPTPokemonTableViewCellClassName)
         }
         
-        let pokemon = self.pokemonArray[indexPath.row]
-        
-        cell?.textLabel?.text = pokemon.name
+        if let cell = cell as? PTPokemonTableViewCell
+        {
+            let pokemon = self.pokemonArray[indexPath.row]
+            
+            cell.setUp(withPokemon: pokemon)
+        }
         
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 88.0
     }
 }
 
