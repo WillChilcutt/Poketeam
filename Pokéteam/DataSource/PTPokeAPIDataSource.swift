@@ -24,10 +24,14 @@ enum PTPokeAPIDataSourceResponse<ResponseType>
 
 typealias PTPokeAPIDataSourceResponseTypeCompletionBlock<ResponseType> = (PTPokeAPIDataSourceResponse<ResponseType>) -> (Void)
 
-private let kPTPokeAPIDataSourceDiskAllPokemonLocation = "AllPokemon"
+private let kPTPokeAPIDataSourceDiskAllPokemonLocation  = "AllPokemon"
+private let kPTPokeAPIDataSourceDiskAllTrainersLocation = "AllTrainers"
 
 class PTPokeAPIDataSource : NSObject
 {
+    
+    //MARK: - Pokemon
+    
     func getAllPokemon(withCompletionBlock completionBlock : @escaping PTPokeAPIDataSourceResponseTypeCompletionBlock<[PTPokemon]>)
     {
         if let pokemonArray = try? self.loadAllPokemonFromDisk()
@@ -67,8 +71,39 @@ class PTPokeAPIDataSource : NSObject
     
     private func saveAllPokemonToDisk(_ allPokemonArray : [PTPokemon]) throws
     {
-        try Disk.save(allPokemonArray, to: .documents, as: kPTPokeAPIDataSourceDiskAllPokemonLocation)
+        try Disk.save(allPokemonArray,
+                      to: .documents,
+                      as: kPTPokeAPIDataSourceDiskAllPokemonLocation)
     }
+    
+    //MARK: - Trainers
+    
+    func getAllTrainers() throws -> [PTTrainer]
+    {
+        return try Disk.retrieve(kPTPokeAPIDataSourceDiskAllTrainersLocation, from: .documents, as: [PTTrainer].self)
+    }
+    
+    func saveTrainer(_ trainer : PTTrainer) throws
+    {
+        var allTrainers : [PTTrainer]
+            
+        if let loadedTrainers = try? self.getAllTrainers()
+        {
+            allTrainers = loadedTrainers
+        }
+        else
+        {
+            allTrainers = []
+        }
+        
+        allTrainers.append(trainer)
+        
+        try Disk.save(allTrainers,
+                      to: .documents,
+                      as: kPTPokeAPIDataSourceDiskAllTrainersLocation)
+    }
+    
+    //MARK: - performRequest
     
     private func performRequest<ResponseType : Codable>(forURLString urlString : String, withResponseType responseType : ResponseType.Type, withCompletionBlock completionBlock : @escaping PTPokeAPIDataSourceResponseTypeCompletionBlock<ResponseType>)
     {

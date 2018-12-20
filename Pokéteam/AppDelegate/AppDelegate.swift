@@ -26,12 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let vc = PTListAllPokemonViewController()
+        let tabBarController = UITabBarController()
         
-        let navController = UINavigationController(rootViewController: vc)
-        navController.navigationBar.isTranslucent = false
+        for viewController in [PTListAllTrainersViewController(), PTListAllPokemonViewController()]
+        {
+            let navController = UINavigationController(rootViewController: viewController)
+            navController.navigationBar.isTranslucent = false
+            
+            tabBarController.addChildViewController(navController)
+        }
         
-        self.window?.rootViewController = navController
+        self.window?.rootViewController = tabBarController
         
         self.window?.makeKeyAndVisible()
     }
