@@ -75,6 +75,7 @@ class PTListAllTrainersViewController: UIViewController
             trainersNameTextField = textField
             textField.placeholder = "Trainer's Name"
             textField.delegate = self
+            textField.autocapitalizationType = .words
         }
         
         let addAction = UIAlertAction(title: "Add",

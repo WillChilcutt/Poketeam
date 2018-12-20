@@ -109,6 +109,10 @@ class PTPokeAPIDataSource : NSObject
                 //Insert new at old spot
                 allTrainers.insert(trainer, at: index)
             }
+            else
+            {
+                allTrainers.append(trainer)
+            }
         }
         else
         {
