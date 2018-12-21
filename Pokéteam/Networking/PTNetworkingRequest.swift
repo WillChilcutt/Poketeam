@@ -14,7 +14,14 @@ enum PTNetworkingRequestResponse<ResponseType>
     case success(withResult : ResponseType, andRequestId : String)
 }
 
-typealias PTNetworkingRequestResponseTypeCompletionBlock<ResponseType> = (PTNetworkingRequestResponse<ResponseType>) -> (Void)
+enum PTNetworkingResponse<ResponseType>
+{
+    case failure(withError : Error)
+    case success(withResult : ResponseType)
+}
+
+typealias PTNetworkingResponseTypeCompletionBlock<ResponseType>         = (PTNetworkingResponse<ResponseType>) -> (Void)
+typealias PTNetworkingRequestResponseTypeCompletionBlock<ResponseType>  = (PTNetworkingRequestResponse<ResponseType>) -> (Void)
 
 class PTNetworkingRequest <ResponseType : Codable>
 {

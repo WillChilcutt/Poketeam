@@ -27,15 +27,7 @@ private enum PTPokeAPIDataSourceEndpoints
 
 private let kPTPokeAPIDataSourceHasCompletedFullDataLoadKey = "kPTPokeAPIDataSourceHasCompletedFullDataLoadKey"
 
-
-enum PTPokeAPIDataSourceRequestResponse<ResponseType>
-{
-    case failure(withError : Error)
-    case success(withResult : ResponseType)
-}
-
-typealias PTPokeAPIDataSourceResponseTypeCompletionBlock<ResponseType> = (PTPokeAPIDataSourceRequestResponse<ResponseType>) -> (Void)
-
+typealias PTPokeAPIDataSourceResponseTypeCompletionBlock<ResponseType> = (PTNetworkingResponse<ResponseType>) -> (Void)
 
 class PTPokeAPIDataSource : NSObject
 {
@@ -44,9 +36,14 @@ class PTPokeAPIDataSource : NSObject
         return UserDefaults.standard.bool(forKey: kPTPokeAPIDataSourceHasCompletedFullDataLoadKey)
     }
     
+    class func setHasCompletedFullDataLoad()
+    {
+        UserDefaults.standard.set(true, forKey: kPTPokeAPIDataSourceHasCompletedFullDataLoadKey)
+    }
+    
     //MARK: - Pokemon
     
-    func getAllPokemon(withProgressBlock progressBlock : @escaping PTNetworkingRequestManagerProgressBlock<[PTPokemon]>, andCompletionBlock completionBlock :() -> (Void))
+    func getAllPokemon(withProgressBlock progressBlock : @escaping PTNetworkingRequestManagerProgressBlock<PTPokemon>, andCompletionBlock completionBlock : @escaping ([PTPokemon]) -> (Void))
     {
         var endpoints : [String] = []
         
@@ -65,21 +62,7 @@ class PTPokeAPIDataSource : NSObject
         let requestManager = PTNetworkingRequestManager<PTPokemon>()
         
         requestManager.performRequests(withURLStrings: endpoints,
-                                       progressBlock:
-        { (progress, progressResponse) in
-            
-            switch progressResponse
-            {
-                case .success(let pokemon, _):
-                    print("Progress: \(progress). Loaded \(pokemon.name)")
-                    break
-                case .failure(let error, _):
-                    print("Progress: \(progress). Error \(error)")
-                    break
-            }
-        })
-        { () -> (Void) in
-            print("Completed get all pokemon request")
-        }
+                                       progressBlock:progressBlock,
+                                       andCompletionBlock: completionBlock)
     }
 }

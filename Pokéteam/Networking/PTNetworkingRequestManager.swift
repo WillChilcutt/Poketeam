@@ -14,7 +14,7 @@ class PTNetworkingRequestManager <ResponseType : Codable>
 {
     private var requestIds : [String] = []
     
-    func performRequests(withURLStrings urlStrings : [String], progressBlock : @escaping PTNetworkingRequestManagerProgressBlock<ResponseType>, andCompletionBlock completionBlock : @escaping () -> (Void))
+    func performRequests(withURLStrings urlStrings : [String], progressBlock : @escaping PTNetworkingRequestManagerProgressBlock<ResponseType>, andCompletionBlock completionBlock : @escaping ([ResponseType]) -> (Void))
     {
         var requestsArray : [PTNetworkingRequest<ResponseType>] = []
         
@@ -31,6 +31,8 @@ class PTNetworkingRequestManager <ResponseType : Codable>
         
         var finishedRequests = 0
         
+        var allResults : [ResponseType] = []
+        
         for request in requestsArray
         {
             request.performRequest
@@ -38,11 +40,11 @@ class PTNetworkingRequestManager <ResponseType : Codable>
                 
                 switch response
                 {
-                case .failure(let error,_):
-                    print("Error with endpoint: \(request.requestURLString)")
-                    break
-                default:
-                    break
+                    case .success(let result, _):
+                        allResults.append(result)
+                        break
+                    default:
+                        break
                 }
                 
                 finishedRequests += 1
@@ -54,7 +56,7 @@ class PTNetworkingRequestManager <ResponseType : Codable>
                 
                 if self.requestIds.isEmpty == true
                 {
-                    completionBlock()
+                    completionBlock(allResults)
                 }
             }
         }

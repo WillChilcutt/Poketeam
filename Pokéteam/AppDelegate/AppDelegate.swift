@@ -17,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         self.setUpWindow()
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.switchToTabBarController),
+                                               name: .doneLoadingAllPokemon,
+                                               object: nil)
+        
         return true
     }
     
@@ -25,6 +30,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         if PTPokeAPIDataSource.hasCompletedFullDataLoad() == true
+        {
+            self.switchToTabBarController()
+        }
+        else
+        {
+            let loadingVC = PTLoadDataViewController()
+            
+            self.window?.rootViewController = loadingVC
+            self.window?.makeKeyAndVisible()
+        }
+    }
+
+    @objc private func switchToTabBarController()
+    {
+        DispatchQueue.main.async
         {
             let tabBarController = UITabBarController()
             
@@ -38,16 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             }
             
             self.window?.rootViewController = tabBarController
+            self.window?.makeKeyAndVisible()
         }
-        else
-        {
-            let loadingVC = PTLoadDataViewController()
-            
-            self.window?.rootViewController = loadingVC
-        }
-        
-        self.window?.makeKeyAndVisible()
     }
-
 }
 

@@ -12,6 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PTLoadDataViewController" customModule="Poke_team" customModuleProvider="target">
             <connections>
+                <outlet property="progressPercentageLabel" destination="tBo-hj-3A3" id="6BK-v3-0VG"/>
+                <outlet property="progressView" destination="VIq-fj-OCr" id="f3j-wk-HVA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

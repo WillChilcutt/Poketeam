@@ -40,3 +40,11 @@ struct PTPokemon : Codable, Equatable
         case gamesAvailableIn   = "game_indices"
     }
 }
+
+extension Array where Element == PTPokemon
+{
+    mutating func sortById()
+    {
+        self.sort { $0.id < $1.id }
+    }
+}

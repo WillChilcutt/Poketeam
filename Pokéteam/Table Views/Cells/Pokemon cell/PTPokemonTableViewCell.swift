@@ -38,12 +38,9 @@ class PTPokemonTableViewCell: UITableViewCell
             if let fetchedImage = PTImageCacheManager.sharedInstance.imageCache.image(for: urlRequest)
             {
                 self.spriteImageView.image = fetchedImage
-                print("Loaded cached image")
             }
             else
             {
-                print("Requesting new image")
-                
                 Alamofire.request(url).responseImage
                 { (response) in
                     DispatchQueue.main.async
