@@ -47,24 +47,10 @@ class PTListAllPokemonViewController: UIViewController
     
     private func getAllPokemon()
     {
-        dataSource.getAllPokemon { (response) -> (Void) in
-            switch response
-            {
-                case .failure(let error):
-                    print("error getting pokemon: \(error)")
-                    break
-                case .success(let pokemonArray):
-                    
-                    DispatchQueue.main.async
-                    {
-                        self.pokemonArray.removeAll()
-                        self.pokemonArray.append(contentsOf: pokemonArray)
-                        
-                        self.tableView.reloadData()
-                    }
-                    break
-            }
-        }
+        guard let allPokemon = try? PTStorageDataSource.loadAllPokemonFromDisk() else { return }
+        
+        self.pokemonArray.append(contentsOf: allPokemon)
+        self.tableView.reloadData()
     }
 }
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PTLoadDataViewController" customModule="Poke_team" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading Data:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLh-bt-B7e">
+                    <rect key="frame" x="134.5" y="213.5" width="106" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VIq-fj-OCr">
+                    <rect key="frame" x="20" y="242.5" width="335" height="2"/>
+                </progressView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tBo-hj-3A3">
+                    <rect key="frame" x="20" y="252.5" width="335.5" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="qLh-bt-B7e" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="2HJ-xq-5Ku"/>
+                <constraint firstItem="VIq-fj-OCr" firstAttribute="top" secondItem="qLh-bt-B7e" secondAttribute="bottom" constant="8" id="9kt-JV-sXK"/>
+                <constraint firstAttribute="trailing" secondItem="VIq-fj-OCr" secondAttribute="trailing" constant="20" id="ETb-qc-lyK"/>
+                <constraint firstItem="tBo-hj-3A3" firstAttribute="leading" secondItem="VIq-fj-OCr" secondAttribute="leading" id="LzI-Vi-PTY"/>
+                <constraint firstItem="tBo-hj-3A3" firstAttribute="trailing" secondItem="VIq-fj-OCr" secondAttribute="trailing" id="SNZ-hP-kvY"/>
+                <constraint firstItem="VIq-fj-OCr" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" constant="-100" id="SwM-t7-ho0"/>
+                <constraint firstItem="tBo-hj-3A3" firstAttribute="top" secondItem="VIq-fj-OCr" secondAttribute="bottom" constant="8" id="WTL-Hu-Pb3"/>
+                <constraint firstItem="VIq-fj-OCr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="YCU-US-EoY"/>
+                <constraint firstItem="tBo-hj-3A3" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="aUF-lE-a27"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+</document>

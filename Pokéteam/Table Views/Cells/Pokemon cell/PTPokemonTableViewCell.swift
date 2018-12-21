@@ -27,11 +27,11 @@ class PTPokemonTableViewCell: UITableViewCell
     {
         self.pokemon = pokemon
         
-        guard var pokemon = self.pokemon else { return }
+        guard let pokemon = self.pokemon else { return }
         
         self.nameLabel.text = pokemon.name.capitalized
         
-        if let url = URL(string: pokemon.spite)
+        if let url = URL(string: pokemon.sprites.front)
         {
             let urlRequest = URLRequest(url: url)
             

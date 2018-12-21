@@ -13,7 +13,6 @@ private let kPTTrainerDetailsViewControllerAddPokemonCellIdentifier = "kPTTraine
 class PTTrainerDetailsViewController: UIViewController
 {
     private let trainer         : PTTrainer
-    private let dataSource      : PTPokeAPIDataSource = PTPokeAPIDataSource()
     private var sectionsArray   : [PTTableViewSection] = []
     
     //MARK: - IBOutlet
@@ -40,18 +39,17 @@ class PTTrainerDetailsViewController: UIViewController
         self.tableView.register(UINib(nibName: kPTPokemonTableViewCellClassName, bundle: nil),
                                 forCellReuseIdentifier: kPTPokemonTableViewCellClassName)
         
-        self.setUpTableView()
+        self.setUpTableViewSections()
+        self.tableView.reloadData()
     }
     
-    private func setUpTableView()
+    private func setUpTableViewSections()
     {
         self.sectionsArray.removeAll()
         let pokemonSection = PTTableViewSection(name: kPokemon,
                                                 rowObjects: self.trainer.pokemon,
                                                 cellIdentifier:kPTPokemonTableViewCellClassName)
         self.sectionsArray.append(pokemonSection)
-        
-        self.tableView.reloadData()
     }
 }
 
@@ -164,6 +162,38 @@ extension PTTrainerDetailsViewController : UITableViewDelegate
         self.presentedViewController?.dismiss(animated: true,
                                               completion: nil)
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
+    {
+        let section  = self.sectionsArray[indexPath.section]
+
+        if section.name == kPokemon && indexPath.row != section.rowObjects.count
+        {
+            let removeAction = UITableViewRowAction(style: .destructive,
+                                                    title: "Remove")
+            { (action, indexPath) in
+                
+                guard let pokemon = section.rowObjects[indexPath.row] as? PTPokemon else { return }
+                self.handleUserWantsToRemovePokemon(pokemon,
+                                                    atIndexPath:indexPath)
+            }
+            
+            return [removeAction]
+        }
+        
+        return nil
+    }
+    
+    private func handleUserWantsToRemovePokemon(_ pokemon : PTPokemon, atIndexPath indexPath : IndexPath)
+    {
+        self.trainer.pokemon.remove(at: indexPath.row)
+        try? PTStorageDataSource.saveTrainer(trainer)
+        self.setUpTableViewSections()
+        
+        self.tableView.beginUpdates()
+        self.tableView.deleteRows(at: [indexPath], with: .left)
+        self.tableView.endUpdates()
+    }
 }
 
 //MARK: - PTListAllPokemonViewControllerDelegate
@@ -174,9 +204,10 @@ extension PTTrainerDetailsViewController : PTListAllPokemonViewControllerDelegat
     {
         self.trainer.pokemon.append(pokemon)
         
-        try? self.dataSource.saveTrainer(trainer)
+        try? PTStorageDataSource.saveTrainer(trainer)
         
-        self.setUpTableView()
+        self.setUpTableViewSections()
+        self.tableView.reloadData()
         
         self.dismissListAllPokemon()
     }

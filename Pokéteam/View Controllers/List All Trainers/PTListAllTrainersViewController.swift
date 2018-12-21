@@ -12,7 +12,6 @@ private let kPTListAllTrainersViewControllerTrainerCellIdentifier = "kPTListAllT
 
 class PTListAllTrainersViewController: UIViewController
 {
-    private let dataSource      : PTPokeAPIDataSource = PTPokeAPIDataSource()
     private var trainersArray   : [PTTrainer] = []
     
     private var addTrainerAction : UIAlertAction?
@@ -59,7 +58,7 @@ class PTListAllTrainersViewController: UIViewController
     {
         self.trainersArray.removeAll()
         
-        if let trainers = try? self.dataSource.getAllTrainers()
+        if let trainers = try? PTStorageDataSource.getAllTrainers()
         {
             self.trainersArray.append(contentsOf: trainers)
         }
@@ -92,7 +91,7 @@ class PTListAllTrainersViewController: UIViewController
             
             let trainer = PTTrainer(withName: name)
             
-            try? self.dataSource.saveTrainer(trainer)
+            try? PTStorageDataSource.saveTrainer(trainer)
             
             self.loadAllTrainers()
         })
