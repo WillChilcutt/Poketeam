@@ -8,24 +8,18 @@
 
 import UIKit
 
-protocol PTListAllPokemonViewControllerDelegate
-{
-    func handleUserSelected(pokemon : PTPokemon)
-}
 
 class PTListAllPokemonViewController: UIViewController
 {
     private var dataSource      : PTPokeAPIDataSource =  PTPokeAPIDataSource()
-    private var pokemonArray    : [PTPokemon] = []
+    var pokemonArray    : [PTPokemon] = []
     
-    var delegate : PTListAllPokemonViewControllerDelegate?
-        
     //MARK: - IBOutlet
     @IBOutlet weak var tableView: UITableView!
     
     init()
     {
-        super.init(nibName: nil , bundle: nil)
+        super.init(nibName: String(describing: PTListAllPokemonViewController.self) , bundle: nil)
         self.title = "All \(kPokemon)"
     }
     
@@ -45,26 +39,12 @@ class PTListAllPokemonViewController: UIViewController
         self.getAllPokemon()
     }
     
-    private func getAllPokemon()
+    func getAllPokemon()
     {
-        dataSource.getAllPokemon { (response) -> (Void) in
-            switch response
-            {
-                case .failure(let error):
-                    print("error getting pokemon: \(error)")
-                    break
-                case .success(let pokemonArray):
-                    
-                    DispatchQueue.main.async
-                    {
-                        self.pokemonArray.removeAll()
-                        self.pokemonArray.append(contentsOf: pokemonArray)
-                        
-                        self.tableView.reloadData()
-                    }
-                    break
-            }
-        }
+        guard let allPokemon = try? PTStorageDataSource.getAllPokemon() else { return }
+        
+        self.pokemonArray.append(contentsOf: allPokemon)
+        self.tableView.reloadData()
     }
 }
 
@@ -110,8 +90,5 @@ extension PTListAllPokemonViewController : UITableViewDelegate
     {
         tableView.deselectRow(at: indexPath,
                               animated: true)
-        let pokemon = self.pokemonArray[indexPath.row]
-
-        self.delegate?.handleUserSelected(pokemon: pokemon)
     }
 }
