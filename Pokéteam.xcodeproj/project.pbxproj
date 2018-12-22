@@ -25,6 +25,7 @@
 		BE8B294221CB38CB00D884BC /* PTListAllTrainersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE8B294021CB38CB00D884BC /* PTListAllTrainersViewController.xib */; };
 		BE8B294721CB41DD00D884BC /* PTTrainerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8B294521CB41DD00D884BC /* PTTrainerDetailsViewController.swift */; };
 		BE8B294821CB41DD00D884BC /* PTTrainerDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE8B294621CB41DD00D884BC /* PTTrainerDetailsViewController.xib */; };
+		BE8D2EBC21CEF5A8002227F8 /* PTChoosePokemonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8D2EBB21CEF5A8002227F8 /* PTChoosePokemonViewController.swift */; };
 		BE9F2E7C21CB4A2E00AFCF8E /* PTTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F2E7B21CB4A2E00AFCF8E /* PTTableViewSection.swift */; };
 		BE9F2E7E21CB4B6D00AFCF8E /* PTConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F2E7D21CB4B6D00AFCF8E /* PTConstants.swift */; };
 		BEA112B221CC596200A376B3 /* PTLoadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA112B021CC596200A376B3 /* PTLoadDataViewController.swift */; };
@@ -74,6 +75,7 @@
 		BE8B294021CB38CB00D884BC /* PTListAllTrainersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PTListAllTrainersViewController.xib; sourceTree = "<group>"; };
 		BE8B294521CB41DD00D884BC /* PTTrainerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTTrainerDetailsViewController.swift; sourceTree = "<group>"; };
 		BE8B294621CB41DD00D884BC /* PTTrainerDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PTTrainerDetailsViewController.xib; sourceTree = "<group>"; };
+		BE8D2EBB21CEF5A8002227F8 /* PTChoosePokemonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTChoosePokemonViewController.swift; sourceTree = "<group>"; };
 		BE9F2E7B21CB4A2E00AFCF8E /* PTTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTTableViewSection.swift; sourceTree = "<group>"; };
 		BE9F2E7D21CB4B6D00AFCF8E /* PTConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTConstants.swift; sourceTree = "<group>"; };
 		BEA112B021CC596200A376B3 /* PTLoadDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTLoadDataViewController.swift; sourceTree = "<group>"; };
@@ -198,10 +200,10 @@
 		BE2FB9AE21CA063F0041A62C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BE8D2EB921CEF4DF002227F8 /* Pokemon List */,
 				BEA112AF21CC594A00A376B3 /* Loading */,
 				BE8B294421CB41CC00D884BC /* Trainer Details */,
 				BE8B294321CB38FA00D884BC /* List All Trainers */,
-				BE8B293321CB16ED00D884BC /* List All Pokemon */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -277,6 +279,23 @@
 				BE8B294621CB41DD00D884BC /* PTTrainerDetailsViewController.xib */,
 			);
 			path = "Trainer Details";
+			sourceTree = "<group>";
+		};
+		BE8D2EB921CEF4DF002227F8 /* Pokemon List */ = {
+			isa = PBXGroup;
+			children = (
+				BE8D2EBA21CEF517002227F8 /* Choose Pokemon */,
+				BE8B293321CB16ED00D884BC /* List All Pokemon */,
+			);
+			path = "Pokemon List";
+			sourceTree = "<group>";
+		};
+		BE8D2EBA21CEF517002227F8 /* Choose Pokemon */ = {
+			isa = PBXGroup;
+			children = (
+				BE8D2EBB21CEF5A8002227F8 /* PTChoosePokemonViewController.swift */,
+			);
+			path = "Choose Pokemon";
 			sourceTree = "<group>";
 		};
 		BE9F2E7921CB4A1300AFCF8E /* Cells */ = {
@@ -533,6 +552,7 @@
 				BEA112BF21CC617B00A376B3 /* PTPokemonSprites.swift in Sources */,
 				BE2FB9B821CA08140041A62C /* PTPokemon.swift in Sources */,
 				BE2FB98A21CA05370041A62C /* AppDelegate.swift in Sources */,
+				BE8D2EBC21CEF5A8002227F8 /* PTChoosePokemonViewController.swift in Sources */,
 				BEA112C621CC858C00A376B3 /* PTNetworkingRequestManager.swift in Sources */,
 				BEA112BA21CC5D2A00A376B3 /* PTPokemonAbility.swift in Sources */,
 				BE9F2E7E21CB4B6D00AFCF8E /* PTConstants.swift in Sources */,

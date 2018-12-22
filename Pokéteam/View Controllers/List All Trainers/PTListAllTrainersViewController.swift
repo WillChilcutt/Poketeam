@@ -166,7 +166,7 @@ extension PTListAllTrainersViewController : UITableViewDataSource
         let trainer = self.trainersArray[indexPath.row]
         
         cell?.textLabel?.text = trainer.name
-        cell?.detailTextLabel?.text = "Owns \(trainer.pokemon.count) \(kPokemon)"
+        cell?.detailTextLabel?.text = "Owns \(trainer.getPokemon().count) \(kPokemon)"
         
         return cell!
     }

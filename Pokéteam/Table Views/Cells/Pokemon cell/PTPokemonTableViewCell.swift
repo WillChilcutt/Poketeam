@@ -15,13 +15,11 @@ let kPTPokemonTableViewCellClassName = String(describing: PTPokemonTableViewCell
 class PTPokemonTableViewCell: UITableViewCell
 {
     var pokemon : PTPokemon?
+    
+    //MARK: - IBOutlet
     @IBOutlet weak var spriteImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
     
     func setUp(withPokemon pokemon : PTPokemon)
     {

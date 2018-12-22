@@ -9,23 +9,33 @@
 import UIKit
 import Disk
 
-private let kPTStorageDataSourceDiskAllPokemonLocation  = "AllPokemon"
-private let kPTStorageDataSourceDiskAllTrainersLocation = "AllTrainers"
+private let     kPTStorageDataSourceDiskAllPokemonLocation  = "AllPokemon"
+private let     kPTStorageDataSourceDiskAllTrainersLocation = "AllTrainers"
+private func    kPTStorageDataSourceDiskPokemonLocation(withPokemonId pokemonId : Int) -> String { return "Pokemon-\(pokemonId)"}
+
 
 class PTStorageDataSource
 {
     //MARK: - Pokemon
     
-    class func loadAllPokemonFromDisk() throws -> [PTPokemon]
+    class func getAllPokemon() throws -> [PTPokemon]
     {
         return try Disk.retrieve(kPTStorageDataSourceDiskAllPokemonLocation, from: .documents, as: [PTPokemon].self)
     }
     
+    class func getPokemon(withId pokemonId : Int) throws -> PTPokemon
+    {
+        return try Disk.retrieve(kPTStorageDataSourceDiskPokemonLocation(withPokemonId: pokemonId), from: .documents, as: PTPokemon.self)
+    }
+    
     class func saveAllPokemonToDisk(_ allPokemonArray : [PTPokemon]) throws
     {
-        try Disk.save(allPokemonArray,
-                      to: .documents,
-                      as: kPTStorageDataSourceDiskAllPokemonLocation)
+        try Disk.save(allPokemonArray, to: .documents, as: kPTStorageDataSourceDiskAllPokemonLocation)
+        
+        for pokemon in allPokemonArray
+        {
+            try Disk.save(pokemon, to: .documents, as: kPTStorageDataSourceDiskPokemonLocation(withPokemonId: pokemon.id))
+        }
     }
     
     //MARK: - Trainers
@@ -71,8 +81,6 @@ class PTStorageDataSource
             allTrainers = [trainer]
         }
         
-        try Disk.save(allTrainers,
-                      to: .documents,
-                      as: kPTStorageDataSourceDiskAllTrainersLocation)
+        try Disk.save(allTrainers, to: .documents, as: kPTStorageDataSourceDiskAllTrainersLocation)
     }
 }

@@ -47,7 +47,7 @@ class PTTrainerDetailsViewController: UIViewController
     {
         self.sectionsArray.removeAll()
         let pokemonSection = PTTableViewSection(name: kPokemon,
-                                                rowObjects: self.trainer.pokemon,
+                                                rowObjects: self.trainer.getPokemon(),
                                                 cellIdentifier:kPTPokemonTableViewCellClassName)
         self.sectionsArray.append(pokemonSection)
     }
@@ -139,17 +139,10 @@ extension PTTrainerDetailsViewController : UITableViewDelegate
 
         if section.name == kPokemon && indexPath.row == section.rowObjects.count
         {
-            let listAllPokemonVC = PTListAllPokemonViewController()
-            listAllPokemonVC.delegate = self
+            let listAllPokemonVC = PTChoosePokemonViewController(withDelegate: self)
             
             let navController = UINavigationController(rootViewController: listAllPokemonVC)
             navController.navigationBar.isTranslucent = false
-            
-            let cancelButton = UIBarButtonItem(title: "Cancel",
-                                               style: .plain,
-                                               target: self,
-                                               action: #selector(self.dismissListAllPokemon))
-            listAllPokemonVC.navigationItem.leftBarButtonItem = cancelButton
             
             self.present(navController,
                          animated: true,
@@ -186,7 +179,7 @@ extension PTTrainerDetailsViewController : UITableViewDelegate
     
     private func handleUserWantsToRemovePokemon(_ pokemon : PTPokemon, atIndexPath indexPath : IndexPath)
     {
-        self.trainer.pokemon.remove(at: indexPath.row)
+        self.trainer.removePokemon([pokemon])
         try? PTStorageDataSource.saveTrainer(trainer)
         self.setUpTableViewSections()
         
@@ -198,17 +191,21 @@ extension PTTrainerDetailsViewController : UITableViewDelegate
 
 //MARK: - PTListAllPokemonViewControllerDelegate
 
-extension PTTrainerDetailsViewController : PTListAllPokemonViewControllerDelegate
+extension PTTrainerDetailsViewController : PTChoosePokemonViewControllerDelegate
 {
-    func handleUserSelected(pokemon: PTPokemon)
+    func handleUserChoosePokemon(_ pokemonArray: [PTPokemon])
     {
-        self.trainer.pokemon.append(pokemon)
+        self.trainer.addPokemon(pokemonArray)
         
         try? PTStorageDataSource.saveTrainer(trainer)
         
         self.setUpTableViewSections()
         self.tableView.reloadData()
         
+        self.dismissListAllPokemon()
+    }
+    
+    func handleUserCancelledChoosingPokemon() {
         self.dismissListAllPokemon()
     }
 }
